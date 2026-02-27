@@ -1,0 +1,42 @@
+Candy Crush c'est quoi ? 
+
+C'est un jeu avec un utilisateur qui doit résoudre des niveaux en faisant fusionner au minimum 3 bonbons d'une même couleur. On possède une grille contenant ces bonbon et on peut faire s'échanger de places 2 bonbons adjacents (sauf diagonale). Lors de l'échange si un des bonbons en cause se retrouve à former notre motif de minimum 3 bonbons identiques et alignés, ceux-ci ce suppriment. Cette supression rend les cases anciennement occupées, vides dans un premier temps. Pour chaque case vide, toutes leur colonnes combleront ce vide en descendant tous les bonbons situées au dessus de la case vides. Ces colonnes généreront un nouveau bonbon par case vide en arrivant par le haut. Ces nouveaux bonbons sont générés au hasard parmi les couleurs disponibles (probabilité d'apparition égales). La logique de supression de bonbons puis de génération doit s'effectuer tant qu'un ou plusieurs motifs de 3 bonbons ou plus sont présent (jusqu'à arriver à un état stable).
+Une partie s'arrête quand plus aucun déplacements (échange de 2 bonbons) n'est possible, c'est-à-dire qu'il n'emmène plus de nouveaux motifs de 3 bonbons ou plus alignés.
+Le jeu possède un système de score. Chaque bonbon supprimé ajoute 1 point au score.
+J'imagine 2 façons de temriner une partie. Soit en créant des niveaux représentés par des paliers de score à atteindre sur une même partie. Le niveau 1, 100 points par exemple, niveau 2 200 points (de façon générale , niveau n = 100*n par exemple).Le jeu sauvegarde les infos même après fermeture de l'application (Sérialisation). Si un joueur fait 1000 au niveau 3 par exemple, il valide tous les paliers intermédiaires jusqu'à ce qu'au score réussi. Ici les 10 premiers paliers se valident dans notre exemple (1000 points = niveau 10 car 10*100 = 1000). (Doit on définir un maximum de niveau ???).
+La 2ème façon serait seulement de se concentrer sur une seule partie (1 niveau). Le but serait d'améliorer un highscore (type jeu d'arcade). Le score se remettrait à 0 à chaque partie, quand plus aucun échange serait possible.
+Un déplacement est fait par l'utilisateur, lorsqu'il clique sur 2 bonbons.
+L'utilisateur n'a l'accés à l'interraction uniquement quand la matrice de jeu est stable (asynchronisme ?). 
+
+-Vérification pour un motif + nombre de bonbons le cas valide:
+    - parcours tant que le bonbon gauche/droite/bas/haut est identique au nouveau bonbon apporté par l'échange, le motif s'agrandi. S'il est minimum de 3, le motif se supprimera par la fonction dédiée. Est-ce qu'on ce concentre sur un seul motif ligne ou est-ce qu'on accepte les motifs à forme particulière en comptant tous les bons identiques collées au motif que ça soit par la gauche, la droite, le haut et le bas.
+     . Fonction pour savoir quel endroit(x,y) du canva de dessin est cliqué par l'utilisateur avec un MouseEvent
+        -> Conversion de cette cordonnées (x,y) en indices i,j de matrice pour repérer à quel bonbons fait on référence
+        (Séparation de la taille du canva proportionnellement au nombre de colonnes et ligne de la matrice = Frontière de décision)
+        -> Fonction qui teste si après l'échange de 2 bonbons, un motif valide est crée ou non.
+        ( Comment vérifier sans modifier le modèle, copie locale de la matrice ?)
+            -> Si, oui fonction qui va supprimer le motif -> Fonction qui va générer de nouveaux bonbons pour combler les vides
+            -> Sinon, rien ne se passe (Animation visuelle ?)
+
+        - La modification se fait uniquement si la fonction a déterminé que le motif est valide.
+
+
+
+-VUE : Interface avec 2 canvas ? , le premier pour les boutons jouer (eventuellement d'autres) 
+    - Si on choisit l'implémenter des niveaux:
+        . On a un petit graphique avec une ligne et des étoiles autour du numéro du niveau si choix de cette solution
+        . fonction pour savoir le niveau à résoudre en cours
+        .Une fonction qui calcule le nombre de points à obtenir pour valider le niveau en cours (numéro de niveau * 100?)
+
+- Pour la vérification de motif: Soit je la fait que sur les bonbons cliqués, soit je la fait pour toute la matrice tous le temps (plus gourmands en calculs), en partant toujours du plus bas et en remontant. Cela ferait une méthode plus générique et moins contextuelle. Mais cela pourrait casser des motifs valides qui se seraient crées plus haut sans avoir été gérés/validés. -> solution ? = enlever tous les motifs de toute la matrice avant de générer de nouveaux bonbons.
+
+De manière générale, Quand je génère un bonbon, il part du haut de la colonne ( sorte de ligne invisible qui les laisse tomber). Je dois voir si je teste un bonbon pour un motif valide à chaque ligne de la matrice quand il descend pour potentiellement  faire un motif dès que possible ou alors je dois attendre que chaque cases vides soient complétées d'un nouveau bonbons avant de chercher les motifs valides
+
+- Le 2ème canva est le jeu avec les images des bonbons , représentant la vue de la matrice
+
+
+
+
+//____________________________________________________________
+    -(secondaire)Faire un bouton on/off pour la musique jouée en boucle .mp3
+

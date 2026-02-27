@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<HTML>
+    <BODY>
+        <h1> Test Candy Crush ! </h1>
+        <canvas id="zoneJeu" width="800" height="600"> style="border:1px solid black;></canvas>        
+        <script type ="module">
+            import {Grille} from '../modele/Grille.js';
+            import {AffichageGrille} from '../vue/AffichageGrille.js';
+            
+            //Modèle
+            const grille = new Grille(6,6);
+
+            //Vue
+            const canvas = document.getElementById('zoneJeu');
+            const vue = new AffichageGrille(canvas, grille);
+
+            //Affichage de lagrille
+            function updateVue(){
+                vue.dessinerGrille();
+                requestAnimationFrame(updateVue);
+            }
+
+            updateVue();
+            
+        </script>
+    </BODY>
+</HTML>
