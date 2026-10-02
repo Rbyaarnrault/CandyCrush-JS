@@ -1,5 +1,7 @@
 # CandyCrush JavaScript
 
+![Burger crush](images/burger_crush.png)
+
 ## 1. Description générale du Projet
 Ce projet consiste à créer une application web simulant le fonctionnement du CandyCrush. C'est un jeu où le joueur doit interragir avec l'application en échangeant de places 2 bonbons d'une grille de bonbons pour créer des alignements de 3 bonbons ou plus identiques (horizontaux ou verticaux mais pas en diagonales).
 Après cela le ou les alignements valides disparaissent pour laisser place à de nouveaux bonbons générés aléatoirement.
